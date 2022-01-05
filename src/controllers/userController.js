@@ -137,16 +137,19 @@ export const logout = (req, res) => {
 };
 
 export const getEdit = (req, res) => {
-  return res.render("edit-profile", { pageTitle: "Edit Profile" });
+  return res.render("users/edit-profile", { pageTitle: "Edit Profile" });
 };
 export const postEdit = async (req, res) => {
   const loggedInUser = req.session.user;
-  const { name, email, username, location } = req.body;
+  const {
+    body: { name, email, username, location },
+    file,
+  } = req;
   const pageTitle = "Edit Profile";
   if (loggedInUser.email !== email) {
     const exists = await User.exists({ email });
     if (exists) {
-      return res.status(400).render("edit-profile", {
+      return res.status(400).render("users/edit-profile", {
         pageTitle,
         errorMessage: "This email is already taken",
       });
@@ -156,7 +159,7 @@ export const postEdit = async (req, res) => {
   if (loggedInUser.username !== username) {
     const exists = await User.exists({ username });
     if (exists) {
-      return res.status(400).render("edit-profile", {
+      return res.status(400).render("users/edit-profile", {
         pageTitle,
         errorMessage: "This username is already taken",
       });
@@ -166,6 +169,7 @@ export const postEdit = async (req, res) => {
   const updateUser = await User.findByIdAndUpdate(
     loggedInUser._id,
     {
+      avatarUrl: file ? file.path : loggedInUser.avatarUrl,
       name,
       email,
       username,
