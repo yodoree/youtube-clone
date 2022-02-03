@@ -133,8 +133,8 @@ export const finishGithubLogin = async (req, res) => {
   }
 };
 export const logout = (req, res) => {
-  req.session.destroy();
   req.flash("info", "Bye Bye");
+  req.session.destroy();
   return res.redirect("/");
 };
 
@@ -234,6 +234,5 @@ export const see = async (req, res) => {
   if (!user) {
     return res.status(404).render("404", { pageTitle: "User not found." });
   }
-  console.log(user);
   return res.render("users/profile", { pageTitle: user.name, user });
 };
