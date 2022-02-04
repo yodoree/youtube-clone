@@ -99,7 +99,6 @@ export const finishGithubLogin = async (req, res) => {
         },
       })
     ).json();
-    console.log(userData);
     const emailData = await (
       await fetch(`${apiUrl}/user/emails`, {
         headers: {
@@ -201,7 +200,6 @@ export const postChangePassword = async (req, res) => {
   } = req;
   const user = await User.findById(_id);
   const ok = await bcrypt.compare(oldPassword, user.password);
-  console.log(ok);
   if (!ok) {
     return res.status(400).render("users/change-password", {
       pageTitle,
