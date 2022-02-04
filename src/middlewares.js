@@ -17,7 +17,7 @@ const s3ImageUploader = multerS3({
   acl: "public-read",
 });
 
-const s3VideoUploader = multer({
+const s3VideoUploader = multerS3({
   s3,
   bucket: "youtube-yodoree/videos",
   acl: "public-read",
