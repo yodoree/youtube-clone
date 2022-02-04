@@ -121,6 +121,10 @@ const handleEnded = () => {
   });
 };
 
+if (!isNaN(video.duration)) {
+  handleCanPlayVideo();
+}
+
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumeChange);
