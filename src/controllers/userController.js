@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 import User from "../models/User";
-import Video from "../models/Video";
+
+const isHeroku = process.env.NODE_ENV === "production";
 
 export const getJoin = (req, res) => res.render("join", { pageTitle: "Join" });
 export const postJoin = async (req, res) => {
@@ -170,7 +171,11 @@ export const postEdit = async (req, res) => {
   const updateUser = await User.findByIdAndUpdate(
     loggedInUser._id,
     {
-      avatarUrl: file ? file.location : loggedInUser.avatarUrl,
+      avatarUrl: file
+        ? isHeroku
+          ? file.location
+          : file.path
+        : loggedInUser.avatarUrl,
       name,
       email,
       username,
